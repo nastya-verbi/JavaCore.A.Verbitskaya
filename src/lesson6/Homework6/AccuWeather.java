@@ -1,4 +1,4 @@
-package lesson6.HomeWork6;
+package lesson6.Homework6;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
