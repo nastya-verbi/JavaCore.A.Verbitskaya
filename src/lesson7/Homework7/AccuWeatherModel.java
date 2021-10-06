@@ -1,14 +1,16 @@
 package lesson7.Homework7;
 
-import lesson7.Homework7.entity.Weather;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lesson7.Homework7.entity.WeatherFiveDays;
+import lesson7.Homework7.entity.Weather;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
-import java.util.List;
+import java.sql.SQLException;
+
 
 import static java.lang.Math.round;
 
@@ -30,8 +32,9 @@ public class AccuWeatherModel implements WeatherModel {
     private static final OkHttpClient okHttpClient = new OkHttpClient();
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
+    private final DataBaseRepository dataBaseRepository = new DataBaseRepository();
 
-    public void getWeather(String selectedCity, Period period) throws IOException  {
+    public void getWeather(String selectedCity, Period period) throws IOException, SQLException {
         switch (period) {
             case NOW: {
                 HttpUrl httpUrl = new HttpUrl.Builder()
@@ -55,6 +58,7 @@ public class AccuWeatherModel implements WeatherModel {
                         .at("/DailyForecasts")
                         .get(0).at("/Date")
                         .asText();
+
                 double temperature = objectMapper.readTree(weatherResponse).at("/DailyForecasts")
                         .get(0)
                         .at("/Temperature/Maximum/Value")
@@ -63,6 +67,10 @@ public class AccuWeatherModel implements WeatherModel {
                 temperature = round((temperature - 32.0) * 5.0 / 9.0 * 100.0) / 100.0;
                 System.out.println("В городе " + selectedCity + " на дату " + localDate.split("T")[0] +
                         " ожидается температура воздуха " + temperature + " C");
+
+                Weather weather = new Weather(selectedCity, localDate.split("T")[0], temperature);
+                DataBaseRepository dataBaseRepository = new DataBaseRepository();
+                dataBaseRepository.saveWeatherToDataBase(weather);
             }
             break;
 
@@ -92,19 +100,51 @@ public class AccuWeatherModel implements WeatherModel {
                             .get(i)
                             .at("/Date")
                             .asText();
-                    double temperature = objectMapper.readTree(weatherResponse5Days)
+                    String weatherTextDay = objectMapper.readTree(weatherResponse5Days)
+                            .at("/DailyForecasts")
+                            .get(i)
+                            .at("/Day/IconPhrase")
+                            .asText();
+                    String weatherTextNight = objectMapper.readTree(weatherResponse5Days)
+                            .at("/DailyForecasts")
+                            .get(i)
+                            .at("/Night/IconPhrase")
+                            .asText();
+                    double minTemperature = objectMapper.readTree(weatherResponse5Days)
+                            .at("/DailyForecasts")
+                            .get(i)
+                            .at("/Temperature/Minimum/Value")
+                            .asDouble();
+                    double maxTemperature = objectMapper.readTree(weatherResponse5Days)
                             .at("/DailyForecasts")
                             .get(i)
                             .at("/Temperature/Maximum/Value")
                             .asDouble();
 
-                    temperature = round((temperature - 32.0) * 5.0 / 9.0 * 100.0) / 100.0;
-                    System.out.println("В городе " + selectedCity + " на дату " + localDate.split("T")[0] +
-                            " ожидается температура воздуха " + temperature + " C");
+                    minTemperature = round((minTemperature - 32.0) * 5.0 / 9.0 * 100.0) / 100.0;
+                    maxTemperature = round((maxTemperature - 32.0) * 5.0 / 9.0 * 100.0) / 100.0;
+                    System.out.println("В городе " + selectedCity + " на дату " + localDate.split("T")[0] + " " +
+                            weatherTextDay + ", температура воздуха днем " + maxTemperature + " C. Ночью "
+                            + weatherTextNight + ", температура воздуха " + minTemperature + " C.");
+
+                    WeatherFiveDays weather5days = new WeatherFiveDays(selectedCity, localDate.split("T")[0],
+                            weatherTextDay, weatherTextNight, minTemperature, maxTemperature);
+                    DataBaseRepository dataBaseRepository = new DataBaseRepository();
+                    dataBaseRepository.saveWeatherToDataBase5Days(weather5days);
                 }
             }
             break;
         }
+    }
+
+    @Override
+    public void getSavedToDBWeather() {
+        dataBaseRepository.getSavedToDBWeather();
+    }
+
+    @Override
+    public void getSavedToDBWeathers5Days() {
+        dataBaseRepository.getSavedToDBWeathers5Days();
     }
 
 
