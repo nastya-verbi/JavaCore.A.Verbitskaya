@@ -24,20 +24,69 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes />
+    <loaded-nodes>
+      <connection connection-id="34395455-d8af-479a-975d-11fb7134f571">
+        <schema name="main" object-types="table, view, constraint, index, column, dataset trigger" />
+      </connection>
+      <connection connection-id="42e0b18e-8399-4ef5-8d18-c015afbd7676">
+        <schema name="main" object-types="table, view" />
+      </connection>
+    </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="434be466-3b24-4721-9a5f-b2f6d3f24c43">
-      <console name="Connection" type="STANDARD" schema="main" session="Main"><![CDATA[create table students(id integer primary key autoincrement, name text, score integer);]]></console>
+    <connection id="34395455-d8af-479a-975d-11fb7134f571">
+      <console name="Connection" type="STANDARD" schema="main" session="Main"><![CDATA[create table students(id integer primary key autoincrement, name text, score integer);
+create table course(id integer primary key autoincrement, name text);
+
+insert into students(name, score, faculty_id) values ('Андрей', 10, 1);
+insert into students(name, score, faculty_id) values ('Олег', 10, 2);
+insert into students(name, score, faculty_id) values ('Антон', 15, 3);
+insert into students(name, score, faculty_id) values ('Елена', 20, 6);
+
+select * from students;
+
+update students set score = 5 where id = 1;
+
+delete from students where id =4;
+
+drop table students;
+
+create table students(id integer primary key autoincrement, name text, score integer, faculty_id integer);
+create table faculties (id integer primary key autoincrement, name text);
+
+insert into faculties (name) values ('IT');
+insert into faculties (name) values ('Math');
+insert into faculties (name) values ('Culture');
+insert into faculties (name) values ('Biology');
+insert into faculties (name) values ('Griffindor');
+
+select * from students s left join faculties f on s.faculty_id = f.id;
+
+select * from faculties;
+
+create table weatherOneDay (id integer primary key autoincrement, city text, localdate text, temperature double);
+drop table weatherFiveDays;
+create table weatherFiveDays (id integer primary key autoincrement, city text, localdate text, weatherTextDay text, 
+weatherTexNight text, minTemperature double, maxTemperature double);
+
+select * from "weatherFiveDays" ;
+select * from "weatherOneDay" ;]]></console>
+    </connection>
+    <connection id="42e0b18e-8399-4ef5-8d18-c015afbd7676">
+      <console name="Connection 1" type="STANDARD" schema="main" session="Main"><![CDATA[create table weatherOneDay (id integer primary key autoincrement, city text, localdate text, temperature double);]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files>
-      <object connection-id="434be466-3b24-4721-9a5f-b2f6d3f24c43" object-ref="consoles/Connection" />
+      <object connection-id="34395455-d8af-479a-975d-11fb7134f571" object-ref="consoles/Connection" />
     </open-files>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="434be466-3b24-4721-9a5f-b2f6d3f24c43" />
+    <connection id="34395455-d8af-479a-975d-11fb7134f571" />
+    <connection id="42e0b18e-8399-4ef5-8d18-c015afbd7676" />
+  </component>
+  <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="34395455-d8af-479a-975d-11fb7134f571" dataset="main.students" active-filter-id="" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
@@ -65,7 +114,7 @@
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="434be466-3b24-4721-9a5f-b2f6d3f24c43" active="true">
+      <connection id="34395455-d8af-479a-975d-11fb7134f571" active="true">
         <database>
           <name value="Connection" />
           <description value="" />
@@ -80,7 +129,94 @@
           <port value="" />
           <database value="" />
           <files>
-            <file path="D:\Мои проекты\Java\JavaCore.A.Verbitskaya\geekbrains.db" schema="main" />
+            <file path="C:\Users\Verbi\IdeaProjects\JavaCore.A.Verbitskaya\geekbrains.db" schema="main" />
+          </files>
+          <type value="NONE" />
+          <user value="" />
+          <deprecated-pwd value="" />
+        </database>
+        <properties>
+          <auto-commit value="true" />
+        </properties>
+        <ssh-settings>
+          <active value="false" />
+          <proxy-host value="" />
+          <proxy-port value="22" />
+          <proxy-user value="" />
+          <deprecated-proxy-pwd value="" />
+          <auth-type value="PASSWORD" />
+          <key-file value="" />
+          <key-passphrase value="" />
+        </ssh-settings>
+        <ssl-settings>
+          <active value="false" />
+          <certificate-authority-file value="" />
+          <client-certificate-file value="" />
+          <client-key-file value="" />
+        </ssl-settings>
+        <details>
+          <charset value="UTF-8" />
+          <session-management value="true" />
+          <ddl-file-binding value="true" />
+          <database-logging value="false" />
+          <connect-automatically value="true" />
+          <restore-workspace value="true" />
+          <restore-workspace-deep value="true" />
+          <environment-type value="default" />
+          <connectivity-timeout value="5" />
+          <idle-time-to-disconnect value="30" />
+          <idle-time-to-disconnect-pool value="5" />
+          <credential-expiry-time value="10" />
+          <max-connection-pool-size value="7" />
+          <alternative-statement-delimiter value="" />
+        </details>
+        <object-filters hide-empty-schemas="false" hide-pseudo-columns="false">
+          <object-type-filter use-master-settings="true">
+            <object-type name="SCHEMA" enabled="true" />
+            <object-type name="USER" enabled="true" />
+            <object-type name="ROLE" enabled="true" />
+            <object-type name="PRIVILEGE" enabled="true" />
+            <object-type name="CHARSET" enabled="true" />
+            <object-type name="TABLE" enabled="true" />
+            <object-type name="VIEW" enabled="true" />
+            <object-type name="MATERIALIZED_VIEW" enabled="true" />
+            <object-type name="NESTED_TABLE" enabled="true" />
+            <object-type name="COLUMN" enabled="true" />
+            <object-type name="INDEX" enabled="true" />
+            <object-type name="CONSTRAINT" enabled="true" />
+            <object-type name="DATASET_TRIGGER" enabled="true" />
+            <object-type name="DATABASE_TRIGGER" enabled="true" />
+            <object-type name="SYNONYM" enabled="true" />
+            <object-type name="SEQUENCE" enabled="true" />
+            <object-type name="PROCEDURE" enabled="true" />
+            <object-type name="FUNCTION" enabled="true" />
+            <object-type name="PACKAGE" enabled="true" />
+            <object-type name="TYPE" enabled="true" />
+            <object-type name="TYPE_ATTRIBUTE" enabled="true" />
+            <object-type name="ARGUMENT" enabled="true" />
+            <object-type name="DIMENSION" enabled="true" />
+            <object-type name="CLUSTER" enabled="true" />
+            <object-type name="DBLINK" enabled="true" />
+          </object-type-filter>
+          <object-name-filters />
+        </object-filters>
+      </connection>
+      <connection id="42e0b18e-8399-4ef5-8d18-c015afbd7676" active="true">
+        <database>
+          <name value="Connection 1" />
+          <description value="" />
+          <database-type value="SQLITE" />
+          <config-type value="BASIC" />
+          <database-version value="3.34" />
+          <driver-source value="BUILTIN" />
+          <driver-library value="" />
+          <driver value="" />
+          <url-type value="FILE" />
+          <host value="" />
+          <port value="" />
+          <database value="" />
+          <files>
+            <file path="C:\Users\Verbi\IdeaProjects\JavaCore.A.Verbitskaya\Lesson8.db" schema="main" />
           </files>
           <type value="NONE" />
           <user value="" />
