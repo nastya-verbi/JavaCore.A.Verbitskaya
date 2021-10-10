@@ -11,7 +11,9 @@ public class Controller {
 
     public Controller() {
         variants.put(1, Period.NOW);
-        variants.put(5, Period.FIVE_DAYS);
+        variants.put(2, Period.FIVE_DAYS);
+        variants.put(3, Period.DB_PATH);
+        variants.put(4, Period.DB_PATH_FIVE_DAYS);
     }
 
     public void getWeather(String userInput, String selectedCity) throws IOException, SQLException {
@@ -23,6 +25,12 @@ public class Controller {
                 break;
             case FIVE_DAYS:
                 weatherModel.getWeather(selectedCity, Period.FIVE_DAYS);
+                break;
+            case DB_PATH:
+                weatherModel.getSavedToDBWeather();
+                break;
+            case DB_PATH_FIVE_DAYS:
+                weatherModel.getSavedToDBWeathers5Days();
                 break;
         }
     }
