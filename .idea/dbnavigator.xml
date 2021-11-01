@@ -24,14 +24,7 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes>
-      <connection connection-id="34395455-d8af-479a-975d-11fb7134f571">
-        <schema name="main" object-types="table, view, constraint, index, column, dataset trigger" />
-      </connection>
-      <connection connection-id="42e0b18e-8399-4ef5-8d18-c015afbd7676">
-        <schema name="main" object-types="table, view" />
-      </connection>
-    </loaded-nodes>
+    <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="34395455-d8af-479a-975d-11fb7134f571">
@@ -77,9 +70,7 @@ select * from "weatherOneDay" ;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="34395455-d8af-479a-975d-11fb7134f571" object-ref="consoles/Connection" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="34395455-d8af-479a-975d-11fb7134f571" />
